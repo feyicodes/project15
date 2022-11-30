@@ -37,12 +37,13 @@ I created 3 elastic IPs, assigned one to the Nat Gateway and the other are to be
 
 
 
-I created 5 security groups catering for various infrastructure categories:
- * Nginx Servers
- * Bastion Servers
- * Application Load Balancer
- * Web servers
- * Data Layer.
+I created 5 security groups catering for various infrastructure categories with the following characteristics:
+ * Nginx Servers- Http/Https access from Application Load Balancer (External) security group and SSH access from Bastion security group.
+ * Bastion Servers- SSH access from my IP
+ * Application Load Balancer (Internal)- Http/Https access from NGINX security group
+ * Application Load Balancer (External)- Http/Https access to all incoming traffic.
+ * Web servers- Http/Https access from Application Load Balancer (Internal) security group and SSH access from Bastion security group.
+ * Data Layer- Mysql/NFS access from NGINX security group and Mysql access from Bastion Server.
 
 ![](images/img12.png)
 
@@ -98,10 +99,22 @@ I configured the self signed certificate for the nginx instance:
 
     sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 ```
+ 
+I configured the self signed certificate for apache for the webservers, given that they would be used to host them using the following codes:
+```
+    yum install -y mod_ssl
 
+    openssl req -newkey rsa:2048 -nodes -keyout /etc/pki/tls/private/ACS.key -x509 -days 365 -out /etc/pki/tls/certs/ACS.crt
 
+    vi /etc/httpd/conf.d/ssl.conf
+```
 
+After completing the configuration of the 3 instances, I created their images as template for usage hereafter.
 
+![](images/img14.png)
 
+I create trget groups for all parts of the architecture behind a load balancer. The load balancer forwards traffic to target groups. The target groups created cater for nginx server, webservers and tooling servers. 
+
+![](images/img15.png)
 
 
