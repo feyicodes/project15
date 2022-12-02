@@ -99,7 +99,7 @@ The following code was used to configure the seleniux policies for the webserver
 
 I also configured the utilities for mounting targets on Elastic File System for webserver and nginx server.
 ```
-    git clone https://;github.com/aws/efs-utils
+    git clone https://github.com/aws/efs-utils
 
     cd efs-utils
 
@@ -112,7 +112,7 @@ I also configured the utilities for mounting targets on Elastic File System for 
     yum install -y  ./build/amazon-efs-utils*rpm
 ```
 
-I configured the self signed certificate for the nginx instance:
+I configured the self signed certificate for the nginx instance in order to ensure that the instance doesn't fail a health check:
 
 ```
     sudo mkdir /etc/ssl/private
@@ -138,6 +138,25 @@ It is important to note that these initial configurations were carried out in or
 
 
 After completing the configuration of the 3 instances, I created their images as template for usage hereafter.
+
+![](images/img24.png)
+
+I created auotscaling groups for the nginx and bastion host, accessed the bastion host to create database for wordpress and tooling
+
+![](images/img25.png)
+
+![](images/img26.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
