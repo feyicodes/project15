@@ -51,7 +51,41 @@ I created 5 security groups catering for various infrastructure categories with 
  Based on the architecture, I would need to setup and configure the following resources in the VPC:
  EC2 INstances, Launch Templates, Target Groups, Autoscaling Groups, TLS Certificates and Application Load Balancers.
 
- I created an instance each of the Webserver, Nginx Server and Bastion Host server and carried out the necessary comfigurations to make it a suitable template for the architecture. 
+![](images/img14.png)
+
+I created target groups for all parts of the architecture behind a load balancer. The load balancer forwards traffic to target groups. The target groups created cater for nginx server, webservers and tooling servers. 
+
+![](images/img15.png)
+
+I created the external automatic load balancer (ALB) that is connected to the certificate manager and NGINX target group. 
+
+![](images/img19.png);
+
+I created the internal automatic load balancer (ALB) that is connected to the certificate manager as well as the wordpress target group as the primary connection and tooling target group as the secondary via adding a rule to the listener based on the HTTP host header.
+
+![](images/img17.png)
+
+![](images/img16.png)
+
+I created launch templates for bastion, nginx and webserver templates with suitable user data. 
+
+![](images/img20.png)
+
+I created an elastic file system (EFS) and an accompanying mount target in the both  subnets for the webservers
+
+![](images/img21.png)
+
+I created 2 different Access Points for wordpress and tooling websites in order to avoid overwriting and distorting access. ;
+
+![](images/img22.png)
+
+I created a Key Management Service (KMS) for encrypting the database instance
+
+![](images/img23.png)
+
+
+
+I created an instance each of the Webserver, Nginx Server and Bastion Host server and carried out the necessary comfigurations to make it a suitable template for the architecture. 
 
 The following code was used on all 3 instances for installing some of the necessary softwares namely: python, ntp, net-tools, vim, wget, telnet, epel-release, htop.
 ```
@@ -75,7 +109,7 @@ The following code was used to configure the seleniux policies for the webserver
 
 I also configured the utilities for mounting targets on Elastic File System for webserver and nginx server.
 ```
-    git clone https://github.com/aws/efs-utils
+    git clone https://;github.com/aws/efs-utils
 
     cd efs-utils
 
@@ -111,10 +145,7 @@ I configured the self signed certificate for apache for the webservers, given th
 
 After completing the configuration of the 3 instances, I created their images as template for usage hereafter.
 
-![](images/img14.png)
 
-I create trget groups for all parts of the architecture behind a load balancer. The load balancer forwards traffic to target groups. The target groups created cater for nginx server, webservers and tooling servers. 
 
-![](images/img15.png)
 
 
