@@ -1,7 +1,7 @@
 ## Implementing AWS Cloud Solution For 2 Company Websites Using Reverse Proxy Technology
 
-This projects expands the knowledge scope cloud exploration by looking at some concepts and tools available on AWS and other cloud providers. The project strenghtens my knowledge in the manual solutions to Clouod architecture, making the automation process more seamless. 
-The project is based on a cloud architecture design that provides resilience to server failures, flexibility in managing traffic and cost effective.
+This project expands on the knowledge and scope  of cloud exploration by looking at some concepts and tools available on AWS and other cloud providers. The project strenghtens knowledge in manual implementation of Cloud architecture and ensures the  execution on automation more seamless. 
+The project is based on a cloud architecture design that provides resilience to server failures, flexibility in managing traffic and cost effectiveness.
 
 ![](images/img13.png)
 
@@ -9,13 +9,7 @@ I created a sub-account within my root account and an organizational unit named 
 
 ![](images/img2.png)
 
-I created a hosted zone in AWS and mapped it to my registered domain **askogun.com**.
-
-![](images/img3.png)
-
-![](images/img5.png)
-
- I created a Virual Private Cloud with the appropriate subnet sufficient to cater for all instances that would be launched within. I created subnets as shown in the architecture and 2 different route tables associated with public subnet and private subnet. I created an internet gateway and edited aroute in the public route table, associating it with the internet gateway. 
+ I created a Virtual Private Cloud with the appropriate subnet configuration based on the cloud architecture for all instances, subnets, 2 different route tables associated with public subnet and private subnet. I created an internet gateway and edited a route in the public route table, associating it with the internet gateway. 
 
 ![](images/img11.png)
 
@@ -25,7 +19,7 @@ I created a hosted zone in AWS and mapped it to my registered domain **askogun.c
 
 ![](images/img10.png)
 
-I created 3 elastic IPs, assigned one to the Nat Gateway and the other are to be assigned to Bastion host.
+I created 3 elastic IPs, assigned one to the NAT Gateway and remaining two (2) to be assigned to Bastion host.
 
 ![](images/img8.png)
 
@@ -34,8 +28,6 @@ I created 3 elastic IPs, assigned one to the Nat Gateway and the other are to be
 ![](images/img3.png)
 
 ![](images/img3.png)
-
-
 
 I created 5 security groups catering for various infrastructure categories with the following characteristics:
  * Nginx Servers- Http/Https access from Application Load Balancer (External) security group and SSH access from Bastion security group.
@@ -48,8 +40,8 @@ I created 5 security groups catering for various infrastructure categories with 
 ![](images/img12.png)
 
 
- Based on the architecture, I would need to setup and configure the following resources in the VPC:
- EC2 INstances, Launch Templates, Target Groups, Autoscaling Groups, TLS Certificates and Application Load Balancers.
+Based on the architecture, I would need to setup and configure the following resources in the VPC:
+EC2 Instances, Launch Templates, Target Groups, Autoscaling Groups, TLS Certificates and Application Load Balancers.
 
 ![](images/img14.png)
 
@@ -83,11 +75,9 @@ I created a Key Management Service (KMS) for encrypting the database instance
 
 ![](images/img23.png)
 
+I created an instance each of the Webserver, Nginx Server and Bastion Host server with the necessary configurations to make it a suitable template for the architecture's autoscaling feature. 
 
-
-I created an instance each of the Webserver, Nginx Server and Bastion Host server and carried out the necessary comfigurations to make it a suitable template for the architecture. 
-
-The following code was used on all 3 instances for installing some of the necessary softwares namely: python, ntp, net-tools, vim, wget, telnet, epel-release, htop.
+The following code was run on all 3 instances for installing some of the necessary softwares namely: python, ntp, net-tools, vim, wget, telnet, epel-release, htop.
 ```
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 
@@ -142,6 +132,10 @@ I configured the self signed certificate for apache for the webservers, given th
 
     vi /etc/httpd/conf.d/ssl.conf
 ```
+
+It is important to note that these initial configurations were carried out in order to reduce the size of user data to be included on the launch template of the instances. 
+
+
 
 After completing the configuration of the 3 instances, I created their images as template for usage hereafter.
 
